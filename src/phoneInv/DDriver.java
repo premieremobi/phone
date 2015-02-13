@@ -45,7 +45,7 @@ public class DDriver {
 			createConnection();
 		}
 		Statement stmt = null;
-		String query = "select userPin, userFirst, userLast "
+		String query = "select userPin, userFirst, userLast, userRole, userState "
 				+ "from mydb.user ";
 
 		list = new ArrayList<User>();
@@ -57,8 +57,9 @@ public class DDriver {
 				int apin = Integer.parseInt(pin);
 				String first = rs.getString("userFirst");
 				String last = rs.getString("userLast");
-				String stats = rs.getString("userLast");
-				User theUser = new User(apin,first,last, stats);
+				String role = rs.getString("userRole");
+				String stats = rs.getString("userState");
+				User theUser = new User(apin,first,last,role, stats);
 				list.add(theUser);
 			}
 		} catch (SQLException e) {
