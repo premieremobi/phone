@@ -13,11 +13,13 @@ public class User {
 	private int userPin;
 	private String userFirst;
 	private String userLast;
+	private String userState;
 	
-	public User(int aPin, String aFirst, String aLast) {
+	public User(int aPin, String aFirst, String aLast, String aState) {
 		this.userPin = aPin;
 		this.userFirst = aFirst;
 		this.userLast = aLast;
+		this.userState = aState;
 		
 	}
 	
@@ -54,5 +56,26 @@ public class User {
 	 */
 	public int getUserPin() {
 		return userPin;
+	}
+
+	/**
+	 * @return the userState
+	 */
+	public String getUserState() {
+		return userState;
+	}
+
+	/**
+	 * @param userState the userState to set
+	 */
+	public void setUserState(String userState) {
+		this.userState = userState;
+	}
+
+	/**
+	 * @param userPin the userPin to set
+	 */
+	public void setUserPin(int userPin) {
+		this.userPin = userPin;
 	}
 }

@@ -57,7 +57,8 @@ public class DDriver {
 				int apin = Integer.parseInt(pin);
 				String first = rs.getString("userFirst");
 				String last = rs.getString("userLast");
-				User theUser = new User(apin,first,last);
+				String stats = rs.getString("userLast");
+				User theUser = new User(apin,first,last, stats);
 				list.add(theUser);
 			}
 		} catch (SQLException e) {
