@@ -16,12 +16,9 @@ public class Test {
 	 */
 	public static void main(String[] args) {
 		DDriver connect = new DDriver();
-		try {
-			System.out.println(connect.getUsers().get(0).getUserLast());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		User me = new User("2222","KK","DOD","SL","Active");
+		connect.addUser(me);
+		System.out.println(connect.userList.get(2).getUserPin());
 
 	}
 

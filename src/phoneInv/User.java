@@ -10,13 +10,13 @@ package phoneInv;
 public class User {
 
 
-	private int userPin;
+	private String userPin;
 	private String userFirst;
 	private String userLast;
 	private String userRole;
 	private String userState;
 	
-	public User(int aPin, String aFirst, String aLast, String aRole, String aState) {
+	public User(String aPin, String aFirst, String aLast, String aRole, String aState) {
 		this.userPin = aPin;
 		this.userFirst = aFirst;
 		this.userLast = aLast;
@@ -56,7 +56,7 @@ public class User {
 	/**
 	 * @return the userPin
 	 */
-	public int getUserPin() {
+	public String getUserPin() {
 		return userPin;
 	}
 
@@ -77,7 +77,7 @@ public class User {
 	/**
 	 * @param userPin the userPin to set
 	 */
-	public void setUserPin(int userPin) {
+	public void setUserPin(String userPin) {
 		this.userPin = userPin;
 	}
 
