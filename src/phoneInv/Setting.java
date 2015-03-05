@@ -62,6 +62,7 @@ public class Setting extends JPanel {
 		textField_2.setColumns(10);
 		textField_2.setText(DDriver.serverName);
 		
+		
 		JButton btnNewButton = new JButton("Apply");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
