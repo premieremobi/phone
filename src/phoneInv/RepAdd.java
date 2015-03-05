@@ -141,19 +141,31 @@ public class RepAdd extends JPanel {
 					String brand = brandList[comboBrand.getSelectedIndex()];
 					String model = textField_model.getText();
 					String imei = textField_Imei.getText();
-					String serv = service [comboService.getSelectedIndex()];
-					double price = Double.parseDouble(textField_Price.getText());
-					String stauts = stats[comboStats.getSelectedIndex()];
-					String comment = textArea.getText();
-					String userPin = MFrame.mainUser.getUserPin();
-					String loc = location[comboLoc.getSelectedIndex()];
-					DDriver.addRepair(new Repair(brand,model,imei,serv,price,stauts,comment,userPin,loc));
-					DDriver.updateLocation(loc);
-					int id = DDriver.getRepairID(imei);
-					JOptionPane.showMessageDialog(null,
-						    "Repair ticket number is "+id,
-						    "Add Repair ticket number",
-						    JOptionPane.INFORMATION_MESSAGE);
+					if (imei.length() == 15) {
+						String serv = service [comboService.getSelectedIndex()];
+						double price = Double.parseDouble(textField_Price.getText());
+						String stauts = stats[comboStats.getSelectedIndex()];
+						String comment = textArea.getText();
+						String userPin = MFrame.mainUser.getUserPin();
+						String loc = location[comboLoc.getSelectedIndex()];
+						DDriver.addRepair(new Repair(brand,model,imei,serv,price,stauts,comment,userPin,loc));
+						DDriver.updateLocation(loc);
+						int id = DDriver.getRepairID(imei);
+						JOptionPane.showMessageDialog(null,
+							    "Repair ticket number is "+id,
+							    "Add Repair ticket number",
+							    JOptionPane.INFORMATION_MESSAGE);
+						textField_model.setText("");
+						textField_Imei.setText("");
+						textField_Price.setText("");
+						textArea.setText("");
+					} else {
+						JOptionPane.showMessageDialog(null,
+							    "IEMI has to be 15 digit",
+							    "Not valid IEMI",
+							    JOptionPane.ERROR_MESSAGE);
+					}
+					
 				}
 			});
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));

@@ -80,7 +80,21 @@ public class DDriver {
 		
 	}
 	
-	
+	public static void updateData() {
+		try {
+					
+					getUsers();
+					getRepairs();
+					getLocations();
+					getBrands();
+					getModels();
+					getStocks();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	}
 	public void readSetting() throws IOException {
 		 // The name of the file to open.
         String fileName = "setting.txt";
@@ -224,7 +238,7 @@ public class DDriver {
 	public static List<User> getFilterUsers(String lastName) {
 		List<User> filterList = new ArrayList<User>();
 		for (User user : userList) {
-			if (user.getUserLast().toLowerCase().contains(lastName)) {
+			if (user.getUserLast().toLowerCase().contains(lastName.toLowerCase())) {
 				filterList.add(user);
 			}
 		}
@@ -283,7 +297,12 @@ public class DDriver {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		userList.add(aNewUser);
+		try {
+			getUsers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -463,6 +482,23 @@ public class DDriver {
 		}
 	}
 	
+	public static String [] getmodelforbrand(String aBrand) {
+		List<String> result = new ArrayList<String>();
+		
+		for (Model myModel: modelList) {
+			if (myModel.getBrand().equals(aBrand)){
+				result.add(myModel.getModel());
+			}
+		}
+		String [] res = new String [result.size()];
+		int i =0;
+		for (String myModel: result) {
+			res [i]=myModel;
+			i++;
+		}
+		
+		return res;
+	}
 	/**
 	 * to add new model
 	 * @author Mohamed
@@ -676,6 +712,15 @@ public class DDriver {
 		}
 	}
 	
+	public static List<Stock> getFilterStock(String aBrand) {
+		List<Stock> filterList = new ArrayList<Stock>();
+		for (Stock myStock : stockList) {
+			if (myStock.getPhoneBrand().toLowerCase().contains(aBrand.toLowerCase())) {
+				filterList.add(myStock);
+			}
+		}
+		return filterList;
+	}
 	/**
 	 * to add new stock
 	 * @author Mohamed
@@ -699,7 +744,12 @@ public class DDriver {
 			System.out.println(e);
 			e.printStackTrace();
 		}
-		stockList.add(aNewStock);
+		try {
+			getStocks();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	

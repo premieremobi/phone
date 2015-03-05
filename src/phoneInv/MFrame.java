@@ -25,6 +25,8 @@ public class MFrame extends JFrame {
 	private static BottomPanel bottomPanel;
 	private static Setting setPanel;
 	private static RepairScreen repPanel;
+	private static InventoryScreen inventory;
+	private static UsersScreen userScr; 
 	private static JPanel mainPanel;
 	public static User mainUser;
 	public String role;
@@ -70,20 +72,21 @@ public class MFrame extends JFrame {
 	}
 	
 	public static void nextMainPanel (String page) {
-		if (page.equals("USER")) {
+		if (page.equals("USERS")) {
 			mainPanel.removeAll();
-			panel = new LoginScreen();
-    		mainPanel.add(panel, BorderLayout.CENTER);
+			userScr = new UsersScreen();
+    		mainPanel.add(userScr, BorderLayout.CENTER);
     		mainPanel.revalidate();
     		mainPanel.repaint();
 			bottomPanel.refresh();
 			
 		} else if ( page.equals("INVENTORY")) {
 			mainPanel.removeAll();
-			
+			inventory = new InventoryScreen();
+			mainPanel.add(inventory, BorderLayout.CENTER);
 			mainPanel.revalidate();
     		mainPanel.repaint();
-    		topPanel.refresh();
+    		//topPanel.refresh();
     		bottomPanel.refresh();
 			
 			
