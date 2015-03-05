@@ -24,7 +24,7 @@ public class RepAdd extends JPanel {
 	JComboBox comboStats;
 	JComboBox comboLoc;
 	JComboBox comboService;
-	String [] service = {"Screen Service","LCD Replace","LCD+Screen","Housing","Dignostic"};
+	String [] service = {"Screen Service","LCD Replace","LCD+Screen","Housing","Dignostic","Unlocking"};
 	String [] location = DDriver.getlist(DDriver.locList);
 	String [] brandList = DDriver.getlist(DDriver.brandList);
 	String [] stats = {"Ready", "Waitting Parts", "Inprogress"};
