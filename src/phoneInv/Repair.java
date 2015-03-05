@@ -21,8 +21,8 @@ public class Repair extends Phone {
 	 * @param aImei
 	 * @param aPrice
 	 */
-	public Repair(String aBrand, String aModel, String aImei, double aPrice,
-			String aService, String aStats, String aComment, String aUserPin, String aLocation) {
+	public Repair(String aBrand, String aModel, String aImei, String aService, double aPrice,
+			String aStats, String aComment, String aUserPin, String aLocation) {
 		super(aBrand, aModel, aImei, aPrice);
 		this.repairService = aService;
 		this.repairStats = aStats;
@@ -31,8 +31,8 @@ public class Repair extends Phone {
 		this.setRepairLocation(aLocation);
 	}
 	
-	public Repair(int aRepairId, String aBrand, String aModel, String aImei, double aPrice,
-			String aService, String aStats, String aComment, String aUserPin, String aLocation) {
+	public Repair(int aRepairId, String aBrand, String aModel, String aImei, String aService, double aPrice,
+			String aStats, String aComment, String aUserPin, String aLocation) {
 		super(aBrand, aModel, aImei, aPrice);
 		this.repairId = aRepairId;
 		this.repairService = aService;
@@ -93,6 +93,13 @@ public class Repair extends Phone {
 
 	public void setRepairLocation(String repairLocation) {
 		this.repairLocation = repairLocation;
+	}
+
+	/**
+	 * @return the repairId
+	 */
+	public int getRepairId() {
+		return repairId;
 	}
 
 }
