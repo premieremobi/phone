@@ -66,7 +66,6 @@ public class Setting extends JPanel {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DDriver.userName = textField.getText();
-				System.out.println(DDriver.userName);
 				DDriver.password = passwordField.getText();
 				DDriver.serverName = textField_2.getText();
 				DDriver.writeSetting();
