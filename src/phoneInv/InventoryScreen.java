@@ -1,6 +1,7 @@
 package phoneInv;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ public class InventoryScreen extends JPanel {
     public String [] columnNames = {"S/N","Brand","Model","IMEI","Condition","Price","InStock"};
     public Stock selected;
     AddStock addScreen;
+    EditStock editScreen;
 
 	/**
 	 * Create the panel.
@@ -55,6 +57,7 @@ public class InventoryScreen extends JPanel {
 					if (!myFiltered.isEmpty()) {
 						updateData(myFiltered);
 						table = new JTable(data,columnNames);
+						table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 						scrollPane.setViewportView(table);
 						scrollPane.revalidate();
 						scrollPane.repaint();
@@ -82,6 +85,7 @@ public class InventoryScreen extends JPanel {
 		
 		updateData(DDriver.stockList);
 		table = new JTable(data,columnNames);
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		scrollPane.setViewportView(table);
 		
 		if (MFrame.mainUser.getUserRole().equals("MG")){
@@ -100,10 +104,26 @@ public class InventoryScreen extends JPanel {
 			btnNewButton_1.setBounds(46, 451, 130, 23);
 			add(btnNewButton_1);
 			
-			JButton btnNewButton_2 = new JButton("Edit");
+			JButton btnNewButton_2 = new JButton("Update");
 			btnNewButton_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// add edit function
+					int selectedrow = -1;
+					int selectedCol = 0;
+					selectedrow = table.getSelectedRow();
+					if (selectedrow > -1 && selectedCol > -1 ) {
+						selected = DDriver.getStock((Integer)table.getValueAt(selectedrow, selectedCol));
+						if (selected != null) {
+							editScreen = new EditStock(selected);
+							scrollPane.setViewportView(editScreen);
+							scrollPane.revalidate();
+							scrollPane.repaint();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null,
+							     "No Phone Selected !",
+							    "Please Select Phone",
+							    JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			});
 			btnNewButton_2.setForeground(new Color(0, 0, 205));
@@ -147,6 +167,7 @@ public class InventoryScreen extends JPanel {
 		DDriver.updateData();
 		updateData(DDriver.stockList);
 		table = new JTable(data,columnNames);
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		scrollPane.setViewportView(table);
 		scrollPane.revalidate();
 		scrollPane.repaint();

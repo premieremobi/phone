@@ -3,6 +3,7 @@ package phoneInv;
 import javax.swing.JPanel;
 
 import java.awt.Color;
+import java.awt.Cursor;
 
 import javax.swing.JLabel;
 
@@ -18,6 +19,7 @@ import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 
 
@@ -29,6 +31,7 @@ public class RepairScreen extends JPanel {
     public String [] columnNames = {"Ticket","Brand","Model","IMEI","Service","Price","Status","Comment","Emp","Location"};
     public Repair selected;
     RepAdd addScreen;
+    RepEdit editScreen;
 
 	/**
 	 * Create the panel.
@@ -62,6 +65,7 @@ public class RepairScreen extends JPanel {
 						updateData(myFiltered);
 						selected = myFiltered.get(0);
 						table = new JTable(data,columnNames);
+						table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 						scrollPane.setViewportView(table);
 						scrollPane.revalidate();
 						scrollPane.repaint();
@@ -88,6 +92,7 @@ public class RepairScreen extends JPanel {
 		
 		updateData(DDriver.repairList);
 		table = new JTable(data,columnNames);
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		scrollPane.setViewportView(table);
 		
 		JButton btnNewButton_1 = new JButton("Add Repair");
@@ -105,11 +110,28 @@ public class RepairScreen extends JPanel {
 		btnNewButton_1.setBounds(46, 451, 130, 23);
 		add(btnNewButton_1);
 		
-		JButton btnNewButton_2 = new JButton("Edit");
+		JButton btnNewButton_2 = new JButton("Update");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				int selectedrow = -1;
+				int selectedCol = 0;
+				selectedrow = table.getSelectedRow();
+				if (selectedrow > -1 && selectedCol > -1 ) {
+					selected = DDriver.getRepair(((Integer)table.getValueAt(selectedrow, selectedCol)));
+					if (selected != null) {
+						editScreen = new RepEdit(selected);
+						scrollPane.setViewportView(editScreen);
+						scrollPane.revalidate();
+						scrollPane.repaint();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null,
+						     "No Repair Ticket Selected !",
+						    "Please Select Repair Ticket",
+						    JOptionPane.ERROR_MESSAGE);
+				}
 			}
+			
 		});
 		btnNewButton_2.setForeground(new Color(0, 0, 205));
 		btnNewButton_2.setBackground(new Color(105, 105, 105));
@@ -129,6 +151,46 @@ public class RepairScreen extends JPanel {
 		btnNewButton_3.setForeground(new Color(255, 0, 0));
 		btnNewButton_3.setBounds(295, 451, 118, 23);
 		add(btnNewButton_3);
+		
+		JButton btnClearRepairTicket = new JButton("Clear Repair Ticket");
+		btnClearRepairTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int selectedrow = -1;
+				int selectedCol = 0;
+				selectedrow = table.getSelectedRow();
+				if (selectedrow > -1 && selectedCol > -1 ) {
+					selected = DDriver.getRepair(((Integer)table.getValueAt(selectedrow, selectedCol)));
+					if (selected != null) {
+						if (selected.getRepairStats().equals("Ready")){
+							DDriver.updateLocation(selected.getRepairLocation(), 0);
+							DDriver.updateRepair(DDriver.repairList.indexOf(selected),selected.getPhoneBrand(),selected.getPhoneModel(),selected.getPhoneImei()
+									,selected.getRepairService(),selected.getPhonePrice(),selected.getRepairStats(),selected.getRepairComment(),selected.getRepairUserPin(),"");
+							JOptionPane.showMessageDialog(null,
+								     "Repair Ticket has been cleard !",
+								    "Repair Ticket",
+								    JOptionPane.INFORMATION_MESSAGE);
+							updateScreen();
+						} else {
+							JOptionPane.showMessageDialog(null,
+								     "Repair Ticket not ready to be cleared !",
+								    "Repair Ticket",
+								    JOptionPane.ERROR_MESSAGE);
+						}
+						
+					}
+				} else {
+					JOptionPane.showMessageDialog(null,
+						     "No Repair Ticket Selected !",
+						    "Please Select Repair Ticket",
+						    JOptionPane.ERROR_MESSAGE);
+				} 
+			}
+		});
+		btnClearRepairTicket.setForeground(new Color(0, 255, 127));
+		btnClearRepairTicket.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnClearRepairTicket.setBackground(SystemColor.controlDkShadow);
+		btnClearRepairTicket.setBounds(837, 451, 182, 23);
+		add(btnClearRepairTicket);
 
 	}
 	
@@ -153,9 +215,9 @@ public class RepairScreen extends JPanel {
 		DDriver.updateData();
 		updateData(DDriver.repairList);
 		table = new JTable(data,columnNames);
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		scrollPane.setViewportView(table);
 		scrollPane.revalidate();
 		scrollPane.repaint();
 	}
-	
 }

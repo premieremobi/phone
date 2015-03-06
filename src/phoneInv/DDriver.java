@@ -355,13 +355,14 @@ public class DDriver {
 		}
 	}
 	
-	public static void updateLocation (String loc) {
+	public static void updateLocation (String loc, int full) {
 		
-		String sql = "update mydb.location set locationFull = 1 where locationId= ?;";
+		String sql = "update mydb.location set locationFull = ? where locationId= ?;";
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = conn.prepareStatement(sql);
-			preparedStatement.setString(1, loc);
+			preparedStatement.setInt(1, full);
+			preparedStatement.setString(2, loc);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -638,7 +639,7 @@ public class DDriver {
 	
 	
 	// To update repair transiction
-	public  void updateRepair(int row, String repairBrand, String repairModel,String repairIMEI,String repairService,double repairPrice,
+	public static  void updateRepair(int row, String repairBrand, String repairModel,String repairIMEI,String repairService,double repairPrice,
 			String repairStats, String repairComment, String userPin, String locationId){
 		Repair updated = repairList.get(row);
 		int id = updated.getRepairId();
@@ -721,6 +722,16 @@ public class DDriver {
 		}
 		return filterList;
 	}
+	
+	public static Stock getStock(int sn) {
+		Stock result = null;
+		for (Stock myStock : stockList) {
+			if (myStock.getsNum() == sn) {
+				result = myStock;
+			}
+		}
+		return result;
+	}
 	/**
 	 * to add new stock
 	 * @author Mohamed
@@ -754,7 +765,7 @@ public class DDriver {
 	}
 	
 	// To update stock
-		public  void updateStock(int row,String aImei, String aCondition, double aPrice,
+		public static  void updateStock(int row,String aImei, String aCondition, double aPrice,
 				 int aAval,String aBrand, String aModel){
 			Stock updated = stockList.get(row);
 			int id = updated.getsNum();

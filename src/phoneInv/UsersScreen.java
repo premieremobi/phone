@@ -13,8 +13,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import java.awt.Cursor;
 
-public class UsersScreen extends JPanel {
+
+
+
+public class UsersScreen extends JPanel{
 
 	private JTextField textField;
 	private JTable table;
@@ -23,6 +27,7 @@ public class UsersScreen extends JPanel {
     public String [] columnNames = {"User Pin","Frist","Last","Role","status"};
     public User selected;
     AddUser addScreen;
+    EditUser editScreen;
 	/**
 	 * Create the panel.
 	 */
@@ -81,6 +86,7 @@ public class UsersScreen extends JPanel {
 		
 		updateData(DDriver.userList);
 		table = new JTable(data,columnNames);
+		table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		scrollPane.setViewportView(table);
 		
 		if (MFrame.mainUser.getUserRole().equals("MG")){
@@ -99,10 +105,27 @@ public class UsersScreen extends JPanel {
 			btnNewButton_1.setBounds(46, 451, 130, 23);
 			add(btnNewButton_1);
 			
-			JButton btnNewButton_2 = new JButton("Edit");
+			JButton btnNewButton_2 = new JButton("Update");
 			btnNewButton_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					// add edit function
+					int selectedrow = -1;
+					int selectedCol = 0;
+					selectedrow = table.getSelectedRow();
+					if (selectedrow > -1 && selectedCol > -1 ) {
+						selected = DDriver.checkUser((String)table.getValueAt(selectedrow, selectedCol));
+						if (selected != null) {
+							editScreen = new EditUser(selected);
+							scrollPane.setViewportView(editScreen);
+							scrollPane.revalidate();
+							scrollPane.repaint();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null,
+							     "No user Selected !",
+							    "Please Select User",
+							    JOptionPane.ERROR_MESSAGE);
+					}
+					
 				}
 			});
 			btnNewButton_2.setForeground(new Color(0, 0, 205));
@@ -148,5 +171,7 @@ public class UsersScreen extends JPanel {
 		scrollPane.revalidate();
 		scrollPane.repaint();
 	}
+	
+	
 
 }

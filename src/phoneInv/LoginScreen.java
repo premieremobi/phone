@@ -48,7 +48,7 @@ public class LoginScreen extends JPanel {
 					} else {
 						User myUser = DDriver.checkUser(pin);
 						
-						if (myUser != null){
+						if (myUser != null && myUser.getUserState().equals("Active")){
 							MFrame.nextPanel(myUser,"mainScreen");
 						} else {
 							JOptionPane.showMessageDialog(null,

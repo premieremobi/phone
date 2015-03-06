@@ -1,37 +1,39 @@
 package phoneInv;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class RepAdd extends JPanel {
-
+public class RepEdit extends JPanel {
 	
 	private JTextField textField_Price;
 	private JTextField textField_Imei;
 	private JTextField textField_model;
 	private JTextArea textArea;
+	JLabel label;
+	JLabel label_Loc;
 	JComboBox comboBrand;
 	JComboBox comboStats;
-	JComboBox comboLoc;
 	JComboBox comboService;
 	String [] service = {"Screen Service","LCD Replace","LCD+Screen","Housing","Dignostic","Unlocking"};
 	String [] location = DDriver.getlist(DDriver.locList);
 	String [] brandList = DDriver.getlist(DDriver.brandList);
 	String [] stats = {"Ready", "Waitting Parts", "Inprogress"};
+
 	/**
 	 * Create the panel.
 	 */
-	public RepAdd() {
+	public RepEdit(final Repair selected) {
+		
 		setLayout(null);
 		{
 			JLabel lblRepairTicket = new JLabel("Repair ticket");
@@ -40,9 +42,10 @@ public class RepAdd extends JPanel {
 			add(lblRepairTicket);
 		}
 		{
-			JLabel label = new JLabel("");
+			label = new JLabel("");
 			label.setFont(new Font("Tahoma", Font.PLAIN, 14));
 			label.setBounds(114, 22, 87, 20);
+			label.setText(String.valueOf(selected.getRepairId()));
 			add(label);
 		}
 		{
@@ -54,6 +57,7 @@ public class RepAdd extends JPanel {
 		{
 			textField_Price = new JTextField();
 			textField_Price.setBounds(541, 57, 116, 23);
+			textField_Price.setText(String.valueOf(selected.getPhonePrice()));
 			add(textField_Price);
 			textField_Price.setColumns(10);
 		}
@@ -97,6 +101,7 @@ public class RepAdd extends JPanel {
 			textField_Imei = new JTextField();
 			textField_Imei.setColumns(10);
 			textField_Imei.setBounds(85, 130, 229, 23);
+			textField_Imei.setText(selected.getPhoneImei());
 			add(textField_Imei);
 		}
 		{
@@ -108,34 +113,36 @@ public class RepAdd extends JPanel {
 		{
 			textArea = new JTextArea();
 			textArea.setBounds(394, 160, 332, 57);
+			textArea.setText(selected.getRepairComment());
 			add(textArea);
 		}
 		
 		comboBrand = new JComboBox(brandList);
 		comboBrand.setBounds(82, 58, 119, 20);
+		comboBrand.setSelectedItem(selected.getPhoneBrand());
 		add(comboBrand);
 		
 		
 		comboStats = new JComboBox(stats);
 		comboStats.setBounds(315, 97, 119, 20);
+		comboStats.setSelectedItem(selected.getRepairStats());
 		add(comboStats);
+
 		
-		comboLoc = new JComboBox(location);
-		comboLoc.setBounds(568, 97, 64, 20);
-		add(comboLoc);
 		
-		//service = {"Screen Serives","LCD Replace","LCD+Screen","Housing","Dignostic"};
 		comboService = new JComboBox(service);
 		comboService.setBounds(324, 58, 147, 20);
+		comboService.setSelectedItem(selected.getRepairService());
 		add(comboService);
 		{
 			textField_model = new JTextField();
 			textField_model.setColumns(10);
 			textField_model.setBounds(85, 97, 116, 23);
+			textField_model.setText(selected.getPhoneModel());
 			add(textField_model);
 		}
 		{
-			JButton btnNewButton = new JButton("Add Repair");
+			JButton btnNewButton = new JButton("Update Repair");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String brand = brandList[comboBrand.getSelectedIndex()];
@@ -147,18 +154,20 @@ public class RepAdd extends JPanel {
 						String stauts = stats[comboStats.getSelectedIndex()];
 						String comment = textArea.getText();
 						String userPin = MFrame.mainUser.getUserPin();
-						String loc = location[comboLoc.getSelectedIndex()];
-						DDriver.addRepair(new Repair(brand,model,imei,serv,price,stauts,comment,userPin,loc));
-						DDriver.updateLocation(loc,1);
-						int id = DDriver.getRepairID(imei);
+						DDriver.updateRepair(DDriver.repairList.indexOf(selected),brand,model,imei,serv,price,stauts,comment,userPin,selected.getRepairLocation());
+						
+						
+						
 						JOptionPane.showMessageDialog(null,
-							    "Repair ticket number is "+id,
-							    "Add Repair ticket number",
+							    "Repair has been updated ! ",
+							    "Update Repair ticket",
 							    JOptionPane.INFORMATION_MESSAGE);
 						textField_model.setText("");
 						textField_Imei.setText("");
 						textField_Price.setText("");
 						textArea.setText("");
+						label.setText("");
+						label_Loc.setText("");
 					} else {
 						JOptionPane.showMessageDialog(null,
 							    "IEMI has to be 15 digit",
@@ -169,10 +178,18 @@ public class RepAdd extends JPanel {
 				}
 			});
 			btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			btnNewButton.setBounds(639, 257, 116, 23);
+			btnNewButton.setBounds(639, 257, 129, 23);
 			add(btnNewButton);
+		}
+		{
+			label_Loc = new JLabel("");
+			label_Loc.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			label_Loc.setBounds(570, 91, 87, 20);
+			label_Loc.setText(selected.getRepairLocation());
+			add(label_Loc);
 		}
 
 	}
+
 
 }
