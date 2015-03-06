@@ -162,14 +162,22 @@ public class RepairScreen extends JPanel {
 					selected = DDriver.getRepair(((Integer)table.getValueAt(selectedrow, selectedCol)));
 					if (selected != null) {
 						if (selected.getRepairStats().equals("Ready")){
-							DDriver.updateLocation(selected.getRepairLocation(), 0);
-							DDriver.updateRepair(DDriver.repairList.indexOf(selected),selected.getPhoneBrand(),selected.getPhoneModel(),selected.getPhoneImei()
-									,selected.getRepairService(),selected.getPhonePrice(),selected.getRepairStats(),selected.getRepairComment(),selected.getRepairUserPin(),"");
-							JOptionPane.showMessageDialog(null,
-								     "Repair Ticket has been cleard !",
-								    "Repair Ticket",
-								    JOptionPane.INFORMATION_MESSAGE);
-							updateScreen();
+							if (selected.getRepairLocation().equals("")) {
+								JOptionPane.showMessageDialog(null,
+									     "Repair Ticket  already cleared !",
+									    "Repair Ticket",
+									    JOptionPane.ERROR_MESSAGE);
+							} else {
+								DDriver.updateLocation(selected.getRepairLocation(), 0);
+								DDriver.updateRepair(DDriver.repairList.indexOf(selected),selected.getPhoneBrand(),selected.getPhoneModel(),selected.getPhoneImei()
+										,selected.getRepairService(),selected.getPhonePrice(),selected.getRepairStats(),selected.getRepairComment(),selected.getRepairUserPin(),"");
+								JOptionPane.showMessageDialog(null,
+									     "Repair Ticket has been cleard !",
+									    "Repair Ticket",
+									    JOptionPane.INFORMATION_MESSAGE);
+								updateScreen();
+							}
+							
 						} else {
 							JOptionPane.showMessageDialog(null,
 								     "Repair Ticket not ready to be cleared !",
