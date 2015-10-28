@@ -44,6 +44,7 @@ public class DDriver {
 	public static List<String> locList;
 	public final static  String DATE_FORMAT_NOW = "yyyy-MM-dd";
 	static ArrayList<String> setting = new ArrayList<String>();
+	private static boolean flag = false;
 	
 
 	public static void createConnection() throws SQLException {
@@ -53,7 +54,9 @@ public class DDriver {
 
 		conn = DriverManager.getConnection("jdbc:" + "mysql" + "://"
 				+ serverName + "/", connectionProps);
-
+        if (conn != null) {
+        	flag = true;
+        }
 		System.out.println("Connected to database");
 	}
 	
@@ -65,13 +68,15 @@ public class DDriver {
 			e1.printStackTrace();
 		}
 		try {
+			 if (flag) {
+				    getUsers();
+					getRepairs();
+					getLocations();
+					getBrands();
+					getModels();
+					getStocks();
+			 }
 			
-			getUsers();
-			getRepairs();
-			getLocations();
-			getBrands();
-			getModels();
-			getStocks();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
